@@ -1,0 +1,11 @@
+.main{
+    background: white;
+    position: absolute;
+    right: 35px;
+    left: 35px;
+    top: 80px;
+}
+
+body{
+    background: #efefef;
+}
