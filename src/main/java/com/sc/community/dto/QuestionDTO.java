@@ -1,14 +1,15 @@
-package com.sc.community.model;
+package com.sc.community.dto;
 
+import com.sc.community.model.User;
 import lombok.Data;
 
 /**
  * @Auther: An
- * @Date: Created in 17:332019/8/28
+ * @Date: Created in 11:562019/8/29
  * @Description:
  */
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String description;
     private String title;
@@ -19,4 +20,5 @@ public class Question {
     private Integer commentCount;
     private Integer viewCount;
     private String tag;
+    private User user;
 }
