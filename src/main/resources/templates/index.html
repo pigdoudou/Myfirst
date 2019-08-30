@@ -28,7 +28,7 @@
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a th:if="${session.user == null}" href="https://github.com/login/oauth/authorize?client_id=80ae44270a5a5b72534f&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
+                <li th:if="${session.user != null}"><a href="/publish">发布</a></li>
                 <li class="dropdown">
                     <a th:if="${session.user != null}" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -37,6 +37,7 @@
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
+                <li><a th:if="${session.user == null}" href="https://github.com/login/oauth/authorize?client_id=80ae44270a5a5b72534f&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
             </ul>
         </div>
     </div>
@@ -46,18 +47,43 @@
         <div class="col-lg-9 col-md-12 col-sm-12">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
             <hr/>
-            <div class="media" th:each="question : ${questions}">
+            <div class="media" th:each="page : ${pagination.questions}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-rounded" width="45" th:src="${question.user.avatarUrl}">
+                        <img class="media-object img-rounded" width="45" th:src="${page.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}" />
-                    <span class="text-desc"><span th:text="${question.tag}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${question.commentCount}"></span>个回复 • <span th:text="${question.viewCount}"></span>个浏览 • <span th:text="${#dates.format(question.gmtCreate,'hh:mm:ss  MMMdd日 yyyy')}"></span></span>
+                    <h4 class="media-heading" th:text="${page.title}"></h4>
+                    <span th:text="${page.description}" />
+                    <span class="text-desc"><span th:text="${page.tag}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${page.commentCount}"></span>个回复 • <span th:text="${page.viewCount}"></span>次浏览 • <span th:text="${#dates.format(page.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>
+            <nav aria-label="Page navigation" style="float: right;">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="@{/(page=1)}" aria-label="Previous" th:if="${pagination.showFirstPage}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/(page=${pagination.page}-1)}" aria-label="Previous" th:if="${pagination.showPrePage}">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${pagination.pages}"><a th:href="@{/(page=${page})}" th:text="${page}"></a></li>
+                    <li>
+                        <a th:href="@{/(page=${pagination.page}+1)}" aria-label="Next" th:if="${pagination.showNextPage}">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/(page=${pagination.totalPage})}" aria-label="Next" th:if="${pagination.showEndPage}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12">
             <h3>热门话题</h3>
