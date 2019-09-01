@@ -24,4 +24,10 @@ public interface QuestionMapper {
 
     @Insert("insert into question(description,title,gmt_create,gmt_modified,creator,tag) values(#{description},#{title},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
     void create(Question question);
+
+    @Select("select * from question where creator=#{id} limit #{offset},#{size}")
+    List<Question> myQuestionList(@Param("id")Integer id, @Param("offset")Integer offset,@Param("size")Integer size);
+
+    @Select("select count(1) from question where creator=#{id}")
+    Integer myCount(Integer id);
 }
