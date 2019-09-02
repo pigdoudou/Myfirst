@@ -55,10 +55,9 @@ public class QuestionService {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.myCount(id);
         paginationDTO.setPagination(totalCount, page, size);
-        if (page < 1) {
+        if (page < 1 || paginationDTO.getTotalPage() ==0) {
             page = 1;
-        }
-        if (page > paginationDTO.getTotalPage()) {
+        }else if (page > paginationDTO.getTotalPage()) {
             page = paginationDTO.getTotalPage();
         }
         Integer offset = size * (page - 1);
