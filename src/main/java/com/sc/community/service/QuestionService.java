@@ -74,4 +74,22 @@ public class QuestionService {
         paginationDTO.setPage(page);
         return paginationDTO;
     }
+
+    public QuestionDTO findById(Integer id){
+        Question question = questionMapper.findById(id);
+        User user=userMapper.findById(question.getCreator());
+        QuestionDTO questionDTO=new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
+
+    public void createOrUpdate(Question question) {
+        Question questionExists=questionMapper.findById(question.getId());
+        if (questionExists != null){
+            questionMapper.updateQuestion(question);
+        }else{
+            questionMapper.create(question);
+        }
+    }
 }
