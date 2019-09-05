@@ -33,4 +33,12 @@ public interface QuestionMapper {
 
     @Update("update question set title=#{title},description=#{description},tag=#{tag},gmt_modified=#{gmtCreate} where id=#{id}")
     void updateQuestion(Question question);
+
+/*
+    @Select("select view_count from question where id = #{id}")
+    int getViewCount(Integer id);
+*/
+
+    @Update("update question set view_count=view_count+1 where id=#{id}")
+    void updateQuestionViewCount(Question question);
 }

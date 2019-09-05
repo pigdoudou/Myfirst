@@ -23,7 +23,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${page.title}"></h4>
+                    <h4 class="media-heading"><a th:text="${page.title}" th:href="@{'/question/'+${page.id}}"></a></h4>
                     <span th:text="${page.description}" />
                     <span class="text-desc"><span th:text="${page.tag}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${page.commentCount}"></span>个回复 • <span th:text="${page.viewCount}"></span>次浏览 • <span th:text="${#dates.format(page.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>

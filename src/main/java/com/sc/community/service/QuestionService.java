@@ -95,4 +95,10 @@ public class QuestionService {
             questionMapper.create(question);
         }
     }
+
+    public void viewCount(Integer id) {
+        Question question=new Question();
+        question.setId(id);
+        questionMapper.updateQuestionViewCount(question);
+    }
 }
