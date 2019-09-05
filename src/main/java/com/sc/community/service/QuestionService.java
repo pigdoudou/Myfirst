@@ -1,5 +1,7 @@
 package com.sc.community.service;
 
+import com.sc.community.exception.CustomizeErrorCode;
+import com.sc.community.exception.CustomizeException;
 import com.sc.community.dto.PaginationDTO;
 import com.sc.community.dto.QuestionDTO;
 import com.sc.community.mapper.QuestionMapper;
@@ -30,10 +32,9 @@ public class QuestionService {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.count();
         paginationDTO.setPagination(totalCount, page, size);
-        if (page < 1) {
+        if (page < 1 || paginationDTO.getTotalPage() ==0) {
             page = 1;
-        }
-        if (page > paginationDTO.getTotalPage()) {
+        }else if (page > paginationDTO.getTotalPage()) {
             page = paginationDTO.getTotalPage();
         }
         Integer offset = size * (page - 1);
@@ -44,8 +45,7 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
-            questionDTOList.add(questionDTO);
-        }
+            questionDTOList.add(questionDTO);}
         paginationDTO.setQuestions(questionDTOList);
         paginationDTO.setPage(page);
         return paginationDTO;
@@ -77,6 +77,9 @@ public class QuestionService {
 
     public QuestionDTO findById(Integer id){
         Question question = questionMapper.findById(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user=userMapper.findById(question.getCreator());
         QuestionDTO questionDTO=new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
