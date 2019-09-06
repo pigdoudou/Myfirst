@@ -7,4 +7,5 @@ package com.sc.community.exception;
  */
 public interface IcustomizeErrorCode {
     String getMessage();
+    Integer getCode();
 }

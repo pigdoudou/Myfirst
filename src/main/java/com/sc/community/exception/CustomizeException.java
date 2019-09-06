@@ -7,8 +7,14 @@ package com.sc.community.exception;
  */
 public class CustomizeException extends RuntimeException{
     private String message;
+    private Integer code;
     public  CustomizeException(IcustomizeErrorCode errorCode){
+        this.code=errorCode.getCode();
         this.message=errorCode.getMessage();
+    }
+
+    public Integer getCode() {
+        return code;
     }
 
     @Override

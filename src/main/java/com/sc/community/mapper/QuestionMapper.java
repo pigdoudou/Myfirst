@@ -1,6 +1,7 @@
 package com.sc.community.mapper;
 
 import com.sc.community.dto.QuestionDTO;
+import com.sc.community.model.Comment;
 import com.sc.community.model.Question;
 import org.apache.ibatis.annotations.*;
 
@@ -41,4 +42,7 @@ public interface QuestionMapper {
 
     @Update("update question set view_count=view_count+1 where id=#{id}")
     void updateQuestionViewCount(Question question);
+
+    @Update("update question set comment_count=comment_count+1 where id=#{parentId}")
+    void updateQuestionCommentCount(Comment comment);
 }
