@@ -8,6 +8,7 @@ import com.sc.community.mapper.QuestionMapper;
 import com.sc.community.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Auther: An
@@ -22,6 +23,7 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Transactional
     public void insertC(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_POST);

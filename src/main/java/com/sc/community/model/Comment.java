@@ -15,6 +15,6 @@ public class Comment {
     private Integer commentId;
     private Long gmtCreate;
     private Long gmtModified;
-    private Long likeCount;
+    private Integer likeCount;
     private String content;
 }
