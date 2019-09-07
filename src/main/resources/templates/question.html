@@ -26,7 +26,6 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" th:text="${question.description}"></div>
                 <br/>
                 <hr class="col-lg-12 col-md-12 col-sm-12"/>
-                <hr class="col-lg-12 col-md-12 col-sm-12"/>
                 <div th:if="${session.user != null}">
                     <a class="community-menu" th:href="@{'/publish/'+${question.id}}"
                        th:if="${session.user.id == question.user.id}">
@@ -34,10 +33,34 @@
                 </span>
                         编辑
                     </a>
+                    <hr class="col-lg-12 col-md-12 col-sm-12"/>
                 </div>
             </div>
-            <hr class="col-lg-12 col-md-12 col-sm-12"/>
-            <div class="col-lg-12 col-md-12 col-sm-12" id="comment_section">
+            <div style="font-size: 30px;font-family: 黑体;font-weight: bold;padding-left: 17px"><span
+                    th:text="${question.commentCount}"></span>个回复
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 0px;background-color: #e2e2e2"/>
+            <div class="col-lg-12 col-md-12 col-sm-12" th:each="comment:${comments}">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object img-rounded" width="45" th:src="${comment.user.avatarUrl}">
+                    </div>
+                    <div class="media-body" style="font-size: 18px">
+                        <h7 class="media-heading" th:text="${comment.user.name}"></h7>
+                        <br/>
+                        <span style="color: #7b7b7b;padding-top: 5px" th:text="${comment.content}"></span>
+                        <div style="padding-top: 15px;" class="good">
+                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                            <span class="glyphicon glyphicon-comment icon" style="margin-left: 15px"></span>
+                            <span style="float: right"
+                                  th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd')}"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="col-lg-12 col-md-12 col-sm-12" style="background-color: #afafaf;margin-top: 5px" />
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12"  style="background-color: #afafaf;;margin-top: 5px;margin-left: 15px;padding: 0px"/>
+            <div class="col-lg-12 col-md-12 col-sm-12" id="comment_section" style="margin-top: 10px">
                 <div class="media">
                     <div class="media-left">
                         <img class="media-object img-rounded" width="45" th:src="${question.user.avatarUrl}">
@@ -48,7 +71,9 @@
                 </div>
                 <input type="hidden" id="question_id" th:value="${question.id}"/>
                 <textarea class="form-control" id="content" rows="6" style="margin-top: 10px"></textarea>
-                <button type="button" class="btn btn-success" style="float: right;margin-bottom: 10px;margin-top: 10px" onclick="postComment()">回复</button>
+                <button type="button" class="btn btn-success" style="float: right;margin-bottom: 10px;margin-top: 10px"
+                        onclick="postComment()">回复
+                </button>
             </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12">
