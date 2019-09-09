@@ -13,9 +13,11 @@
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid profile main">
     <div class="row">
+        <!--左边栏-->
         <div class="col-lg-9 col-md-12 col-sm-12">
             <h2><span th:text="${sectionName}"></span></h2>
             <hr/>
+            <!--我的问题-->
             <div class="media" th:each="page : ${pagination.questions}">
                 <div class="media-left">
                     <a href="#">
@@ -29,6 +31,7 @@
                     <span class="text-desc"><span th:text="${page.tag}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${page.commentCount}"></span>个回复 • <span th:text="${page.viewCount}"></span>次浏览 • <span th:text="${#dates.format(page.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>
+            <!--分页栏-->
             <nav aria-label="Page navigation" style="float: right;">
                 <ul class="pagination">
                     <li>
@@ -55,6 +58,7 @@
                 </ul>
             </nav>
         </div>
+        <!--右边栏-->
         <div class="col-lg-3 col-md-12 col-sm-12">
             <div class="list-group section">
                 <a href="/profile/questions" th:class="${section == 'questions'}?'active list-group-item':'list-group-item'">我的问题</a>

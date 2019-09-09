@@ -1,16 +1,17 @@
 package com.sc.community.controller;
 
+import com.sc.community.dto.CommentDTO;
 import com.sc.community.dto.QuestionDTO;
 import com.sc.community.dto.ReplyDTO;
-import com.sc.community.mapper.QuestionMapper;
 import com.sc.community.service.CommentService;
 import com.sc.community.service.QuestionService;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 

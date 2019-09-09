@@ -9,6 +9,7 @@ import com.sc.community.mapper.QuestionMapper;
 import com.sc.community.mapper.UserMapper;
 import com.sc.community.model.Comment;
 import com.sc.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,9 @@ public class CommentService {
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_TYPE_ERROR);
         }
+        if(comment.getContent()==null || StringUtils.isBlank(comment.getContent())){
+            throw new CustomizeException(CustomizeErrorCode.CONTENT_NULL);
+        }
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             if (commentMapper.findByParentId(comment.getParentId()) == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_REPLY_ERROR);
@@ -68,6 +72,39 @@ public class CommentService {
             replyDTO.setUser(user);
             replyDTOList.add(replyDTO);
         }
+        return replyDTOList;
+    }
+
+    @Transactional
+    public void insertR(Comment comment) {
+        if (comment.getParentId() == null || comment.getParentId() == 0) {
+            throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_POST);
+        }
+        if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
+            throw new CustomizeException(CustomizeErrorCode.COMMENT_TYPE_ERROR);
+        }
+        if(comment.getContent()==null || StringUtils.isBlank(comment.getContent())){
+            throw new CustomizeException(CustomizeErrorCode.CONTENT_NULL);
+        }
+            if (commentMapper.existByParentId(comment.getParentId())==false) {
+                throw new CustomizeException(CustomizeErrorCode.COMMENT_REPLY_ERROR);
+            } else {
+                commentMapper.replyCount(comment.getParentId());
+                commentMapper.insertC(comment);
+            }
+
+    }
+
+    public List<ReplyDTO> findByParentId2(Integer parentId) {
+           List<Comment> commentList= commentMapper.findByParentId2(parentId);
+           List<ReplyDTO> replyDTOList=new ArrayList<>();
+           for(Comment comment:commentList){
+               ReplyDTO replyDTO=new ReplyDTO();
+               BeanUtils.copyProperties(comment,replyDTO);
+               User user = userMapper.findById(comment.getCommentId());
+               replyDTO.setUser(user);
+               replyDTOList.add(replyDTO);
+           }
         return replyDTOList;
     }
 }

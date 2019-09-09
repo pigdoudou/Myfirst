@@ -30,6 +30,9 @@ body{
     font-size: 15px;
 }
 
+.good .active{
+    color: #2e6da4;
+}
 
 .good .icon:hover{
     color: #2e6da4;

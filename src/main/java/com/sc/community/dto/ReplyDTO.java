@@ -18,5 +18,6 @@ public class ReplyDTO {
     private Long gmtModified;
     private Integer likeCount;
     private String content;
+    private Integer replyCount;
     private User user;
 }

@@ -12,7 +12,8 @@ public enum CustomizeErrorCode implements IcustomizeErrorCode{
     NO_LOGIN("请先登录后评论",1002),
     SYS_ERROR("服务器出错",1003),
     COMMENT_TYPE_ERROR("评论类型错误",1004),
-    COMMENT_REPLY_ERROR("回复的评论不存在",1005);
+    COMMENT_REPLY_ERROR("回复的评论不存在",1005),
+    CONTENT_NULL("回复评论不能为空",1006);
 
     private String message;
     private Integer code;
