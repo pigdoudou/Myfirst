@@ -17,7 +17,7 @@ public interface QuestionMapper {
     @Select("select count(1) from question")
     Integer count();
 
-    @Select("select * from question limit #{offset},#{size}")
+    @Select("select * from question order by gmt_create desc limit #{offset},#{size}")
     List<Question> questionList(@Param("offset")Integer offset,@Param("size")Integer size);
 
     @Insert("insert into question(description,title,gmt_create,gmt_modified,creator,tag) values(#{description},#{title},#{gmtCreate},#{gmtModified},#{creator},#{tag})")
@@ -45,4 +45,7 @@ public interface QuestionMapper {
 
     @Update("update question set comment_count=comment_count+1 where id=#{parentId}")
     void updateQuestionCommentCount(Comment comment);
+
+    @Select("select id from question where tag like concat(concat('%',#{tags}),'%') ")
+    List<Integer> findByTag(String tags);
 }

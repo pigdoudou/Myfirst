@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Auther: An
@@ -32,9 +34,9 @@ public class QuestionService {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.count();
         paginationDTO.setPagination(totalCount, page, size);
-        if (page < 1 || paginationDTO.getTotalPage() ==0) {
+        if (page < 1 || paginationDTO.getTotalPage() == 0) {
             page = 1;
-        }else if (page > paginationDTO.getTotalPage()) {
+        } else if (page > paginationDTO.getTotalPage()) {
             page = paginationDTO.getTotalPage();
         }
         Integer offset = size * (page - 1);
@@ -45,7 +47,8 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
-            questionDTOList.add(questionDTO);}
+            questionDTOList.add(questionDTO);
+        }
         paginationDTO.setQuestions(questionDTOList);
         paginationDTO.setPage(page);
         return paginationDTO;
@@ -55,9 +58,9 @@ public class QuestionService {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.myCount(id);
         paginationDTO.setPagination(totalCount, page, size);
-        if (page < 1 || paginationDTO.getTotalPage() ==0) {
+        if (page < 1 || paginationDTO.getTotalPage() == 0) {
             page = 1;
-        }else if (page > paginationDTO.getTotalPage()) {
+        } else if (page > paginationDTO.getTotalPage()) {
             page = paginationDTO.getTotalPage();
         }
         Integer offset = size * (page - 1);
@@ -75,30 +78,51 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO findById(Integer id){
+    public QuestionDTO findById(Integer id) {
         Question question = questionMapper.findById(id);
-        if(question == null){
+        if (question == null) {
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
-        User user=userMapper.findById(question.getCreator());
-        QuestionDTO questionDTO=new QuestionDTO();
-        BeanUtils.copyProperties(question,questionDTO);
+        User user = userMapper.findById(question.getCreator());
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
         questionDTO.setUser(user);
         return questionDTO;
     }
 
     public void createOrUpdate(Question question) {
-        Question questionExists=questionMapper.findById(question.getId());
-        if (questionExists != null){
+        Question questionExists = questionMapper.findById(question.getId());
+        if (questionExists != null) {
             questionMapper.updateQuestion(question);
-        }else{
+        } else {
             questionMapper.create(question);
         }
     }
 
     public void viewCount(Integer id) {
-        Question question=new Question();
+        Question question = new Question();
         question.setId(id);
         questionMapper.updateQuestionViewCount(question);
+    }
+
+    public Set<Integer> findByTag(String tags) {
+        String tag[] = tags.split(",");
+        Set<Integer> idList = new HashSet<>();
+        for (String tages : tag) {
+            List<Integer> id = questionMapper.findByTag(tages);
+
+                for (Integer ids : id) {
+                    idList.add(ids);
+                }
+        }
+        return idList;
+    }
+
+    public List<Question> relatedQuestion(Set<Integer> tagId) {
+        List<Question> questionList = new ArrayList<>();
+        for (Integer id : tagId) {
+            questionList.add(questionMapper.findById(id));
+        }
+        return questionList;
     }
 }

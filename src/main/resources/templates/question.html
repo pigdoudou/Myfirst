@@ -31,6 +31,12 @@
                      style="font-size: 20px"></div>
                 <br/>
                 <hr class="col-lg-12 col-md-12 col-sm-12"/>
+                <span class="label label-info" style="padding-top: 4px;margin-right: 10px;"
+                      th:each="tag:${question.tag.split(',')}">
+                    <span class="glyphicon glyphicon-tags"></span>
+                    <span class="label label-info" th:text="${tag}"></span>
+                </span>
+                <hr class="col-lg-12 col-md-12 col-sm-12"/>
                 <div th:if="${session.user != null}">
                     <a class="community-menu" th:href="@{'/publish/'+${question.id}}"
                        th:if="${session.user.id == question.user.id}">
@@ -62,7 +68,8 @@
                         <div style="padding-top: 15px;" class="good">
                             <span class="glyphicon glyphicon-thumbs-up icon"></span>
                             <span class="glyphicon glyphicon-comment icon" style="margin-left: 15px" id="commentIcon"
-                                  th:data-id="${comment.id}" onclick="collComments(this)"><span th:if="${comment.replyCount != 0}" th:text="${comment.replyCount}"></span></span>
+                                  th:data-id="${comment.id}" onclick="collComments(this)"><span
+                                    th:if="${comment.replyCount != 0}" th:text="${comment.replyCount}"></span></span>
                             <span style="float: right"
                                   th:text="${#dates.format(comment.gmtCreate,'yyyy-MM-dd')}">
                             </span>
@@ -112,7 +119,7 @@
         <!--右边栏-->
         <div class="col-lg-3 col-md-12 col-sm-12">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <h4>发起人</h4>
+                <h4 style="font-weight: bold">发起人</h4>
                 <div class="media">
                     <div class="media-left">
                         <img class="media-object img-circle" width="45" th:src="${question.user.avatarUrl}">
@@ -124,7 +131,20 @@
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12"/>
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <h4>相关问题</h4>
+                <div><span style="font-weight: bold;font-size: 30px;">关注猪富贵</span>（双击！么么哒~）</div>
+                <img src="/img/QQ.jpg" width="250"/>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12"/>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h4 style="font-weight: bold">相关问题</h4>
+                <div th:if="${message != null}">
+                    <span th:text="${message}"></span>
+                </div>
+                <div th:if="${related != null}">
+                    <li th:each="relate:${related}">
+                        <a th:href="@{${relate.id}}" th:text="${relate.title}" style="font-size: 18px;font-weight: bold;"></a>
+                    </li>
+                </div>
             </div>
         </div>
     </div>

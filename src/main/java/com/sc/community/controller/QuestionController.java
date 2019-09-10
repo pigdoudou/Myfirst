@@ -3,6 +3,7 @@ package com.sc.community.controller;
 import com.sc.community.dto.CommentDTO;
 import com.sc.community.dto.QuestionDTO;
 import com.sc.community.dto.ReplyDTO;
+import com.sc.community.model.Question;
 import com.sc.community.service.CommentService;
 import com.sc.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.lang.reflect.Array;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Auther: An
@@ -30,12 +33,25 @@ public class QuestionController {
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable("id") Integer id,
-                           Model model){
-        QuestionDTO questionDTO=questionService.findById(id);
+                           Model model) {
+        //查询问题以及user信息
+        QuestionDTO questionDTO = questionService.findById(id);
+        //通过标签查询相关话题
+        Set<Integer> tagId = questionService.findByTag(questionDTO.getTag());
+            //相关话题去除当前问题
+            tagId.remove(id);
+            if (tagId.isEmpty()) {
+                model.addAttribute("message","暂无相关问题");
+            }else {
+            //获取相关问题信息
+            List<Question> relatedQuestion = questionService.relatedQuestion(tagId);
+            model.addAttribute("related", relatedQuestion);}
+        //浏览数
         questionService.viewCount(id);
-        List<ReplyDTO> replies= commentService.findByParentId(id);
-        model.addAttribute("question",questionDTO);
-        model.addAttribute("comments",replies);
+        //查询一级回复
+        List<ReplyDTO> replies = commentService.findByParentId(id);
+        model.addAttribute("question", questionDTO);
+        model.addAttribute("comments", replies);
         return "question";
     }
 }
