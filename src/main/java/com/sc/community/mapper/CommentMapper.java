@@ -29,4 +29,7 @@ public interface CommentMapper {
 
     @Update("update comment set reply_count=reply_count+1 where id=#{parentId}")
     void replyCount(Integer parentId);
+
+    @Select("select * from comment where id=#{parentId} and type =1")
+    Comment findByParentId3(Integer parentId);
 }

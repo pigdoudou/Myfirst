@@ -49,7 +49,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
         paginationDTO.setPage(page);
         return paginationDTO;
     }
@@ -65,6 +65,9 @@ public class QuestionService {
         }
         Integer offset = size * (page - 1);
         List<Question> questionList = questionMapper.myQuestionList(id, offset, size);
+        if(questionList.size()==0){
+            return paginationDTO;
+        }
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         User user = userMapper.findById(id);
         for (Question question : questionList) {
@@ -73,7 +76,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
         paginationDTO.setPage(page);
         return paginationDTO;
     }

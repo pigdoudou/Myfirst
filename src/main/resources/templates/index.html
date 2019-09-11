@@ -18,7 +18,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12" th:if="${pagination !=null}">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
             <hr/>
-            <div th:each="page : ${pagination.questions}">
+            <div th:each="page : ${pagination.data}">
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
@@ -31,9 +31,8 @@
                         <!--<span th:text="${page.description}" />-->
                     </div>
                 </div>
-                <div style="padding-left: 55px;margin-top: 10px;margin-bottom: 15px">
-                    <span class="text-desc"><span
-                            th:text="${page.tag}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span
+                <div style="padding-left: 55px;margin-top: 5px;margin-bottom: 15px">
+                    <span class="text-desc">&nbsp;&nbsp;&nbsp <span
                             th:text="${page.commentCount}"></span>个回复 • <span
                             th:text="${page.viewCount}"></span>次浏览 • <span
                             th:text="${#dates.format(page.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>

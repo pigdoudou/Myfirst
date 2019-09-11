@@ -8,43 +8,157 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/question.js" type="text/javascript"></script>
 </head>
 <body>
-    <div th:insert="~{navigation :: nav}"></div>
-    <div class="container-fluid main">
-        <div class="row">
-            <!--左边栏-->
-            <!--发布框-->
-            <div class="col-lg-9 col-md-12 col-sm-12">
-                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
-                <hr/>
-                <form action="/publish" method="post">
-                    <div class="form-group">
-                        <input th:if="${id != null}" th:value="${id}" name="id" type="hidden"/>
-                        <label for="title">问题标题(简单扼要):</label>
-                        <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="问题标题">
-                    </div>
-                    <div class="form-group">
-                        <label for="title">问题补充(必填,请参考右侧补充)</label>
-                        <textarea type="text" class="form-control" th:text="${description}" id="description" name="description" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="form-group">
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <!--左边栏-->
+        <!--发布框-->
+        <div class="col-lg-9 col-md-12 col-sm-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
+            <hr/>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <input th:if="${id != null}" th:value="${id}" name="id" type="hidden"/>
+                    <label for="title">问题标题(简单扼要):</label>
+                    <input type="text" class="form-control" th:value="${title}" id="title" name="title"
+                           placeholder="问题标题">
+                </div>
+                <div class="form-group">
+                    <label for="title">问题补充(必填,请参考右侧补充)</label>
+                    <textarea type="text" class="form-control" th:text="${description}" id="description"
+                              name="description" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <div>
                         <label for="title">添加标签</label>
-                        <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签，逗号分隔"/>
+                        <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                               placeholder="选择标签" autocomplete="off" style="background-color: white" />
                     </div>
-                    <div th:if="${error != null}"><div class="alert alert-danger" role="alert" th:text="${error}"></div></div>
-                    <button type="submit" class="btn btn-success" style="float: right;margin-bottom: 15px">发布</button>
-                </form>
-            </div>
-            <!--右边栏-->
-            <div class="col-lg-3 col-md-12 col-sm-12">
-                <h3>问题发起指南</h3>
-                <h4>.问题标题</h4>
-                <h4>.问题补充</h4>
-                <h4>.选择标签</h4>
-                <h4>.关于积分</h4>
-            </div>
+                    <!--标签库-->
+                    <div style="padding-top: 4px;margin-right: 10px;margin-top: 10px">
+                        <div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                                          data-toggle="tab">福利</a></li>
+                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                                           data-toggle="tab">生活</a></li>
+                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
+                                                           data-toggle="tab">开发语言</a></li>
+                                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab"
+                                                           data-toggle="tab">平台框架</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!--福利-->
+                                <div role="tabpanel" class="tab-pane active" id="home" style="margin-top: 10px">
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Cosplay')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Cosplay</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Asmr')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Asmr</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('开车')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>开车</span>
+                                    </div>
+                                </div>
+                                <!--生活-->
+                                <div role="tabpanel" class="tab-pane" id="profile" style="margin-top: 10px">
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('搞笑')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>搞笑</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('日常')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>日常</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('鬼畜')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>鬼畜</span>
+                                    </div>
+                                </div>
+                                <!--开发语言-->
+                                <div role="tabpanel" class="tab-pane" id="messages" style="margin-top: 10px">
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Java')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Java</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('C++')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>C++</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Android')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Android</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Python')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Python</span>
+                                    </div>
+                                </div>
+                                <!--平台框架-->
+                                <div role="tabpanel" class="tab-pane" id="settings" style="margin-top: 10px">
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('SpringBoot')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>SpringBoot</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Mybatis')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Mybatis</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('SpringCloud')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>SpringCloud</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Springmvc')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Springmvc</span>
+                                    </div>
+                                    <div class="label label-info" style="margin-right: 15px;padding: 7px;"
+                                         onclick="selectTag('Jpa')">
+                                        <span class="glyphicon glyphicon-tags"></span>
+                                        <span>Jpa</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${error != null}">
+                    <div class="alert alert-danger" role="alert" th:text="${error}"></div>
+                </div>
+                <button type="submit" class="btn btn-success" style="float: right;margin-bottom: 15px">发布</button>
+            </form>
+        </div>
+        <!--右边栏-->
+        <div class="col-lg-3 col-md-12 col-sm-12">
+            <h3>问题发起指南</h3>
+            <h4>.问题标题</h4>
+            <h4>.问题补充</h4>
+            <h4>.选择标签</h4>
+            <h4>.关于积分</h4>
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -109,7 +109,6 @@ function collComments(e) {
 function postReply(e) {
     var id=e.getAttribute("data-id");
     var content=$("#input-"+id).val();
-        debugger;
     if (content == null || content == "") {
         alert("评论内容不能为空");
     }
@@ -139,4 +138,17 @@ function postReply(e) {
         contentType: "application/json",
         dataType: "json"
     });
+}
+
+
+function selectTag(tagValue){
+    var pre= $('#tag').val();
+    if(pre.indexOf(tagValue)==-1){
+    if(pre){
+        $('#tag').val(pre+','+tagValue);
+    }else{
+        $('#tag').val(tagValue);
+    }}else{
+        $('#tag').val('');
+    }
 }

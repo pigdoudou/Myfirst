@@ -1,6 +1,5 @@
 package com.sc.community.mapper;
 
-import com.sc.community.dto.QuestionDTO;
 import com.sc.community.model.Comment;
 import com.sc.community.model.Question;
 import org.apache.ibatis.annotations.*;
