@@ -47,4 +47,10 @@ public interface QuestionMapper {
 
     @Select("select id from question where tag like concat(concat('%',#{tags}),'%') ")
     List<Integer> findByTag(String tags);
+
+    @Select("select *from question where title like concat(concat('%',#{search}),'%') or tag like concat(concat('%',#{search}),'%') or description like concat(concat('%',#{search}),'%') limit #{offset},#{size} ")
+    List<Question> search(@Param("search")String search, @Param("offset")Integer offset,@Param("size")Integer size);
+
+    @Select("select count(1) from question where title like concat(concat('%',#{search}),'%') or tag like concat(concat('%',#{search}),'%') or description like concat(concat('%',#{search}),'%')")
+    Integer searchCount(String search);
 }

@@ -16,8 +16,9 @@ public class UserService {
     private UserMapper userMapper;
 
     public void createOrUpdate(User user) {
-        Boolean userExists=userMapper.findByAccountId(user.getAccountId());
-        if(userExists){
+        User user1=userMapper.findByAccountId(user.getAccountId());
+        System.out.println(user1);
+        if(user1!=null){
             userMapper.updateUser(user);
         }else {
             userMapper.insertUser(user);

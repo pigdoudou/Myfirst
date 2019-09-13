@@ -42,25 +42,25 @@
             <nav aria-label="Page navigation" style="float: right;">
                 <ul class="pagination">
                     <li>
-                        <a th:href="@{/(page=1)}" aria-label="Previous" th:if="${pagination.showFirstPage}">
+                        <a th:href="@{/(page=1,search=${search})}" aria-label="Previous" th:if="${pagination.showFirstPage}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/(page=${pagination.page}-1)}" aria-label="Previous"
+                        <a th:href="@{/(page=${pagination.page}-1,search=${search})}" aria-label="Previous"
                            th:if="${pagination.showPrePage}">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
-                    <li th:each="page : ${pagination.pages}"><a th:href="@{/(page=${page})}" th:text="${page}"></a></li>
+                    <li th:each="page : ${pagination.pages}"><a th:href="@{/(page=${page},search=${search})}" th:text="${page}"></a></li>
                     <li>
-                        <a th:href="@{/(page=${pagination.page}+1)}" aria-label="Next"
+                        <a th:href="@{/(page=${pagination.page}+1,search=${search})}" aria-label="Next"
                            th:if="${pagination.showNextPage}">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/(page=${pagination.totalPage})}" aria-label="Next"
+                        <a th:href="@{/(page=${pagination.totalPage},search=${search})}" aria-label="Next"
                            th:if="${pagination.showEndPage}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
@@ -70,6 +70,13 @@
         </div>
         <!--右边栏-->
         <div class="col-lg-3 col-md-12 col-sm-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div><span style="font-weight: bold;font-size: 30px;">关注猪富贵</span>（双击！么么哒~）</div>
+                <div align="center">
+                    <img src="/images/QQ.jpg" width="250"/>
+                </div>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12"/>
             <h3>热门话题</h3>
             <h4>.问题标题</h4>
             <h4>.问题补充</h4>
@@ -77,6 +84,9 @@
             <h4>.关于积分</h4>
         </div>
     </div>
+</div>
+<div>
+    <div style="position: absolute;bottom: 20px;padding: 10px 30%;color: #666;" th:insert="~{footer :: foot}"></div>
 </div>
 </body>
 <script type="text/javascript">

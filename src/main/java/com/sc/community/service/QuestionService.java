@@ -128,4 +128,28 @@ public class QuestionService {
         }
         return questionList;
     }
+
+    public PaginationDTO search(String search, Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.searchCount(search);
+        paginationDTO.setPagination(totalCount, page, size);
+        if (page < 1 || paginationDTO.getTotalPage() == 0) {
+            page = 1;
+        } else if (page > paginationDTO.getTotalPage()) {
+            page = paginationDTO.getTotalPage();
+        }
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.search(search,offset, size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        for (Question question : questions) {
+            User user = userMapper.findById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+        paginationDTO.setData(questionDTOList);
+        paginationDTO.setPage(page);
+        return paginationDTO;
+    }
 }

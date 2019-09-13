@@ -152,3 +152,8 @@ function selectTag(tagValue){
         $('#tag').val('');
     }
 }
+
+function thumbsUp() {
+    alert("你点个屁点");
+
+}

@@ -90,8 +90,7 @@ public class CommentService {
         for(Comment comments:comment){
             ReplyDTO replyDTO=new ReplyDTO();
             BeanUtils.copyProperties(comments,replyDTO);
-            Integer creator = questionMapper.findById(id).getCreator();
-            User user = userMapper.findById(creator);
+            User user=userMapper.findById(comments.getCommentId());
             replyDTO.setUser(user);
             replyDTOList.add(replyDTO);
         }
