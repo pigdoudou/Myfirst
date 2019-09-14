@@ -1,6 +1,5 @@
 package com.sc.community.controller;
 
-import com.sc.community.dto.CommentDTO;
 import com.sc.community.dto.QuestionDTO;
 import com.sc.community.dto.ReplyDTO;
 import com.sc.community.model.Question;
@@ -11,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Set;
 
